@@ -7,4 +7,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: say hello
-        run: ./.github/workspace/scripts/test.sh
+        env:
+          SUPER_SECRET: ${{ secrets.USERNAME }}
+        run: ./.github/workspace/scripts/test.sh  "$SUPER_SECRET"
