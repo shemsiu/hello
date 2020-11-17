@@ -5,8 +5,6 @@ jobs:
     name: Build My Hello App
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - name: say hello
-        run: pwd
-
-      - name: custom script
-        run: sh ./scripts/runBash.sh
+        run: ./.github/workspace/scripts/test.sh
