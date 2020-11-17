@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: say hello
-        run: echo 'Hello World'
+        run: pwd
 
       - name: custom script
         run: sh ./scripts/runBash.sh
