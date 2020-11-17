@@ -1,15 +1,9 @@
-name: remote ssh command
+name: deploy to digital ocean
 on: [push]
 jobs:
   build:
-    name: Build
+    name: Build My Hello App
     runs-on: ubuntu-latest
     steps:
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
-          script: whoami
+      - name: custom script
+        run: sh ./scripts/runBash.sh
