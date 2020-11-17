@@ -5,5 +5,8 @@ jobs:
     name: Build My Hello App
     runs-on: ubuntu-latest
     steps:
+      - name: say hello
+        run: echo 'Hello World'
+
       - name: custom script
         run: sh ./scripts/runBash.sh
