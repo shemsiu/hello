@@ -71,7 +71,8 @@ jobs:
         with:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
-          KEY: ${{ secrets.SSHKEY }}
+          # KEY: ${{ secrets.SSHKEY }}
+          password: ${{ secrets.PASSWORD }}
           envs: IMAGE_NAME,REGISTRY,GITHUB_SHA,COMMAND
           script: |
             echo 'hejsa' > viganshemsiu.txt
