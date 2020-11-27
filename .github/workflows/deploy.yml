@@ -82,14 +82,15 @@ jobs:
           script: |
             cat ~/my_password.txt | docker login --username shemsiu --password-stdin
 
-            echo $(date) > deployed_at
             docker pull $(echo $IMAGE_NAME)
 
             # Stop running container
-            docker stop $(echo $IMAGE_NAME)
+            # docker stop $(echo $IMAGE_NAME)
+            docker stop $(docker ps -aq --filter expose=9002)
 
             # Remove old container
-            docker rm $(echo $IMAGE_NAME)
+            # docker rm $(echo $IMAGE_NAME)
+            docker rm $(docker ps -aq --filter expose=9002)
 
             # Run a new container from a new image
             docker run -d -p 9000:9002 $(echo $IMAGE_NAME)
