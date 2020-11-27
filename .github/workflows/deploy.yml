@@ -77,13 +77,13 @@ jobs:
           script: |
             echo $(date) > deployed_at
             # Stop running container
-            sudo docker stop $(echo $IMAGE_NAME)
+            docker stop $(echo $IMAGE_NAME)
 
             # Remove old container
-            sudo docker rm $(echo $IMAGE_NAME)
+            docker rm $(echo $IMAGE_NAME)
 
             # Run a new container from a new image
-            sudo docker run -d \
+            docker run -d \
             --restart always \
             --env-file .env \
             -p 9000:9002 \
