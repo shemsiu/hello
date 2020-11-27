@@ -73,19 +73,19 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           # KEY: ${{ secrets.SSHKEY }}
           password: ${{ secrets.PASSWORD }}
-          envs: IMAGE_NAME,REGISTRY,GITHUB_SHA,COMMAND
+          envs: IMAGE_NAME,REGISTRY,GITHUB_SHA
           script: |
-            echo 'hejsa' > viganshemsiu.txt
+            echo $(date) > deployed_at
             # Stop running container
-            # docker stop $(echo $IMAGE_NAME)
+            sudo docker stop $(echo $IMAGE_NAME)
 
             # Remove old container
-            # docker rm $(echo $IMAGE_NAME)
+            sudo docker rm $(echo $IMAGE_NAME)
 
             # Run a new container from a new image
-            # docker run -d \
-            # --restart always \
-            # --env-file .env \
-            # -p 9000:9002 \
-            # --name $(echo $IMAGE_NAME) \
-            # $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7) $(echo $COMMAND)
+            sudo docker run -d \
+            --restart always \
+            --env-file .env \
+            -p 9000:9002 \
+            --name $(echo $IMAGE_NAME) \
+            $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)
