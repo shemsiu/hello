@@ -4,10 +4,15 @@ env:
 
   COMMAND: "python main.py"
 
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
 
     steps:
       - name: Checkout master
@@ -29,7 +34,6 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     needs: build_and_push
 
     steps:
