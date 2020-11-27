@@ -74,6 +74,8 @@ jobs:
           envs: IMAGE_NAME
           script: |
             echo $(date) > deployed_at
+            docker pull $(echo $IMAGE_NAME)
+
             # Stop running container
             docker stop $(echo $IMAGE_NAME)
 
