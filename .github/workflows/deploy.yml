@@ -80,21 +80,21 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           envs: IMAGE_NAME
           script: |
-            # cat ~/my_password.txt | docker login --username shemsiu --password-stdin
+            cat ~/my_password.txt | docker login --username shemsiu --password-stdin
 
 
-            docker pull shemsiu/hello
+            docker pull shemsiu/hello:latest
 
             # Stop running container
-            # docker stop shemsiu/hello
+            # docker stop shemsiu/hello:latest
             docker stop $(docker ps -aq --filter expose=9002)
 
             # Remove old container
-            # docker rm shemsiu/hello
+            # docker rm shemsiu/hello:latest
             docker rm $(docker ps -aq --filter expose=9002)
 
             # Run a new container from a new image
-            docker run -d -p 9000:9002 shemsiu/hello
+            docker run -d -p 9000:9002 shemsiu/hello:latest
 
 # docker run -d \
 # --restart always \
