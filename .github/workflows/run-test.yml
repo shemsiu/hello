@@ -13,8 +13,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "14.15.x"
-
-      - name: Build and test
       - run: npm install
       - run: npm run build --if-present
       - run: npm test
