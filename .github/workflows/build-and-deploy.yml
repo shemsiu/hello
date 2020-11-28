@@ -1,8 +1,6 @@
 name: Build and Deploy
 
 on:
-  # push:
-  #   branches: [main]
   release:
     types: [published]
 
@@ -57,32 +55,3 @@ jobs:
 
             # Run a new container from a new image
             docker run -d -p 9000:9002 shemsiu/hello:latest
-
-  # test:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Checkout master
-  #       uses: actions/checkout@v2
-
-  #     - name: Set up Python 3.8
-  #       uses: actions/setup-python@v2
-  #       with:
-  #         python-version: 3.8
-
-  #     - name: Install dependencies with pipenv
-  #       run: |
-  #         python -m pip install --upgrade pip
-  #         pip install pipenv
-  #         if [ -f Pipfile ]; then pipenv install --deploy --dev; fi
-
-  #     - name: Lint with flake8
-  #       run: |
-  #         # stop the build if there are Python syntax errors or undefined names
-  #         pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-  #         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-  #         pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-
-  #     - name: Test with pytest
-  #       run: |
-  #         pipenv run pytest .
