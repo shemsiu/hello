@@ -1,0 +1,126 @@
+Hvis guiden går for hurtigt, så kan man hente info her:
+https://www.atlassian.com/git/tutorials/
+
+######################################################################
+                                LINUX
+######################################################################
+Linux kommandoer:
+
+cd ~
+cd 'et eller andet sted'
+ls
+ls -l
+ls -la
+echo "Hello World"
+echo "Hello World" > test.txt
+less test.txt
+nano test.txt (kig på listen af mulige kommandoer)
+mv test.txt demo.txt (også muligt at flytte mapper m.m.)
+mkdir test
+mv demo.txt test/demo.txt (eller giv det et andet navn)
+mkdir inner && cd inner
+cd ../
+rm demo.txt
+cd ../
+rm test/ (fejler med: rm: test/: is a directory)
+rm -r test/
+
+
+
+######################################################################
+                                GIT
+######################################################################
+
+Git:
+
+TASK 1: [Start git]
+git init
+-> se hvordan mappen .git bliver oprettet, og hvad der ligger i den
+
+######################################################################
+
+TASK 2: [Gitconfig]
+less ~/.gitconfig
+git config --global user.name 'Vigan Test'
+nano ~/.gitconfig (ændre navnet tilbage igen)
+
+######################################################################
+
+TASK 3: [Gitingore]
+nano .gitignore (tilføj regel)
+Tilføj dette i gitignore:
+# exclude everything except directory foo/bar
+    /*
+    !/foo
+    /foo/*
+    !/foo/bar
+
+######################################################################
+
+Task 4: [Gemme ændringer]
+echo "hej" > test.txt
+git status
+git add . (eller git add test.txt)
+git rm --cached test.txt (så kan vi lave ændringer og gemme senere)
+git commit -m "dette er en besked"
+
+(mulighed for at ændre seneste commit besked med)
+git commit --amend
+
+nano test.txt
+[Ændre lidt i filen ...]
+git diff test.txt
+
+git stash
+git stash list
+nano test.txt (ændre igen i filen)
+git stash save 'Dette er en anden ændring'
+git stash pop stash@{1}
+git status
+git diff
+git stash pop
+... hov vi kan ikke gøre dette før vi gemmer commits.
+MERGE CONFLICT...
+git status (both modified)
+git diff
+nano test.txt
+(ordne konflikten)
+git add test.txt
+git commit
+(indtast en besked)
+gem og merge complete
+
+######################################################################
+
+Task 5: [Loggen]
+
+git log
+git log --oneline
+git log -3
+git log --author="Vigan"
+git log test.txt
+git vigan (eller git log --graph --oneline --all)
+
+git blame test.txt
+Denne rækkefølge: Id	Author	Timestamp	Line Number	Line Content
+
+######################################################################
+
+Task 6: [Fortryde ændringer]
+git log --oneline
+git checkout (til et eller andet sha-1 id. Eksempel: git checkout 57c93ef)
+Lav alle de ændringer du ønsker, men skal flyttes over i en anden branch.
+git checkout -b min-nye-branch
+git add .
+git commit -m "besked"
+git checkout master
+git merge min-nye-branch
+fiks merge conflicts... :)
+
+der findes også andre metoder, som:
+git clean
+git revert
+git reset
+git rm
+
+

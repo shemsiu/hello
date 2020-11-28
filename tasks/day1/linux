@@ -1,0 +1,379 @@
+# Working with command line
+
+Filen her laver selv nogle escapes som fx. \* og der skal vi blot fjerne \, når vi kører kommandoen.
+
+## Nogle generelle kommandoer
+
+- pwd
+- cd
+- tty (hvilken terminal der bruges)
+- who (hvem er logget ind)
+- whoami (hvem er du logget ind som)
+- ip a s (vis ip)
+
+### Listing files
+
+- pwd
+- ls
+- type ls (så kan man se, at jeg faktisk kører et alias for at få farver på)
+  (blå: mapper, lyseblå: symbolic links)
+- ls -a
+- ls -aF (viser også mapperne med / i slutningen af navnet)
+  F er altså "filetype"
+- ls /en-anden-mappe (eksempel: ls /etc)
+- ls -aF /etc
+  her viser den også filtypen, og man kan se at de lyseblå farver er "symbolic links".
+  Den har også @ i slutningen.
+- ls -l /etc
+  Kan man se permissions, ownership, file size, og hvornår det er blevet modified sidst
+- ls -lrt (reverse, sort)
+  r = reverse sorting
+  t = man vil gerne sortere efter timestamps
+  Det er altså seneste redigerede filer man ser nederst.
+- ls -lhrt
+  h = filesize i "human readable format"
+- ls -ld /etc
+  Så er det kun selve mappen man vil se.
+  drwxr-xr-x 71 root root 4096 Oct 23 20:06 /etc
+  ^ = filetypen
+  drwxr-xr-x 71 root root 4096 Oct 23 20:06 /etc
+  ^ hard links til mappen (snakker vi om senere)
+  drwxr-xr-x 71 root root 4096 Oct 23 20:06 /etc
+  user:group
+- ls
+
+### File types
+
+- ls -ld /etc
+  Så er det kun selve mappen man vil se.
+- tty
+  terminal connected til
+  ls -l /det/pts/1
+  long listing.
+  "character device" - accept characters input og display characters
+- ls -l \$(tty)
+  man kan evaluere det inderste i (..) først og dernæst selve ls -l.
+  tty returnerer jo /dev/pts/1, så det svarer til at skrive det samme som før
+- lsblk
+  ls block (disk og paritions)
+  så kan vi se "vds" er "disk" og de øvrige er "part". Også kan vi se mount point, som for vds1 er "/" (root)
+- ls /dev/vda
+  diskene lever under /dev/ mappen.
+- ls -l /dev/vda
+  "brw-rw---- 1 root disk 254, 0 Oct 20 17:34 /dev/vda"
+  så kan vi se at den starter med "b" og dermed betyder det block device.
+  -ls -l /dev/vda\*
+  regex: zero or more characters
+  -ls -l /dev/vda?
+  der skal være én karakter mere bageved, så vi ser ikke mere vda men kun vda1 og vda2
+- ls -l /etc/rmt
+  "lrwxrwxrwx 1 root root 13 Apr 23 2019 /etc/rmt -> /usr/sbin/rmt"
+  l fortæller at det er et symbolic link også kan vi se at den peger videre til /usr/sbin/rmt
+  Det betyder, at uanset hvilken af dem du kører, så er det faktisk den samme - da pegepinden er den samme.
+- lsb_release -d
+- lsb_release -a
+  viser hvilken version af dit OS
+- ls -l \$(which lsb_release)
+  viser den fulde sti til filen
+- ls -lF \$(which lsb_release)
+  viser den som grøn som betyder executable (altså at man kan køre den).
+  -rwxr-xr-x 1 root root 3638 May 14 2019 /usr/bin/lsb_release* (denne stjerne)
+  Det kan man også se på * til sidst.
+
+### Working with files
+
+- pwd
+  print working directory
+- cd /
+- pwd
+- cd ~
+- cp /etc/hosts .
+  . = der hvor jeg står lige nu
+- ls
+  så kan vi se at den er kopieret over
+- cat hosts
+  læse indholdet af filen
+- cp /etc/passwd ./passwd
+  her kan jeg give den et bestemt navn
+- ls
+  så kan vi se begge filer nu
+- cat passwd
+  så kan vi se alle brugere i systemet
+- cp /etc/hosts ./passwd
+  nu har jeg overskrevet den eksisterende fil
+- cat password
+  Nu er det hosts der er i min passwd fil
+- cp -i /etc/hosts ./passwd
+  Nu bliver det en "interaktiv mode". Så kan vi styre om vi vil overstyre det.
+- cp hosts localhosts
+- ls
+- mkdir testmappe (opret en mappe)
+- mv localhosts ./testmappe
+- mv passwd ./testmappe
+- cd testmappe
+- rm -i \*hosts
+  muligt at bruge regex til at finde ud af hvilke filer man gerne vil slette
+
+- Man må aldrig køre: "rm -rf /"
+
+### Working with directories
+
+- mkdir testfolder
+- mkdir folder1/folder2
+- mkdir -p folder1/folder2
+  opretter automatisk "parent"
+- rmdir folder1
+- cd folder1
+- pwd
+  der er altså indhold inde i mappen folder1
+- rm -rf folder1
+  "recursive" and "force"
+  den er ligeglad med indholdet
+- mkdir one two
+- touch one/file{1..5}
+  opretter 5 filer
+- cp -R one/file* two
+  kopierer alle filer der hedder noget med file* over til mappe "two"
+- cp -R one two
+  så kopirer den mappen OG dens indhold ind i mappen "two
+
+- mkdir -m 777 d1
+  sætte permissions (all permissions)
+- mkdir -m 700 d2
+  her er det kun user der må udføre kommandoer. Group og "others" må intet.
+- ls -ld d1 d2
+
+### Working with links
+
+Forklar forskellen mellem hard link og soft links (også kalled symbolic links).
+
+A symlink (also called a symbolic link) is a type of file in Linux that points to another file or a folder on your computer. Symlinks are similar to shortcuts in Windows.
+Hard links are also shortcuts for files and folders, but a hard link cannot be created for a folder or file in a different file system.
+
+Hard link (udfør kronologisk):
+
+- cd ~
+- ls -ldi .
+- mkdir test
+- ls -ldi test
+- cd test
+- ls -ldi .
+- ls -ldi ..
+  Denne har altså samme ID som vores parent mappe.
+
+Opret vores egen hardlink:
+
+- echo hello > f1
+- ls -l f1
+- ln f1 f2
+- ls -li f1 f2
+- cat f1
+- cat f2
+- nano f2 (ændre teksten til noget andet)
+- cat f1
+
+Hard links er altså det der binder mapperne sammen for at vi kan få denne nested mappe-struktur.
+
+Soft links:
+
+- ln -s f1 f3
+- ls -li f1 f2 f3
+  735 lrwxrwxrwx 1 root root 2 Oct 25 18:17 f3 -> f1
+  ^et andet nr end f1 og f2. ^ man kan se hvor den peger hen til
+- unlink f3
+
+Man skal være omhyggelig med links fordi hvis man fjerner "origin", så er linket i "stykker", men det forsvinder ikke.
+Så kan man få denne fejl:
+"cat: f3: No such file or directory"
+
+Eksempel:
+
+- ls -s f1 f3
+- mkdir test
+- mv f1 test/
+- cat f3
+  .. fejl ...
+- find -xtype l
+  Finder alle ødelagte links
+
+- find -xtype l -delete
+  Den fjerner også ødelagte links.
+
+
+___________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+!\$ = husk at fjerne \
+
+Analysere tekst - regular expressions
+Sammenligne text filer
+Sammenligne binære filer
+Manipulere indholdet af filerne programmatisk (med "sed")
+Søge i filer med "find"
+cat, head, tail
+
+# Reading files
+
+- echo $SSH_C
+  husk at tab så får du echo $SSH_CONNECTION
+- cat /etc/hosts
+- cat /etc/hosts /etc/hostname
+  den læser begger filer og samler dem til én
+- cat /etc/services
+  så fungerer cat ikke særlig godt fordi vi kan ikke se det hele
+
+- wc -l /etc/services
+  wc: word count
+  Den udskriver hvor mange linjer der er.
+
+- less /etc/services
+  indtast "h" eller ":H" mens man er inde i less, så får man hjælpeskærm vist frem hvordan man bruger less.
+  Indtast:
+  /http (så hopper den hvor den finder http) - man kan bruge "n" til at hoppe videre til NÆSTE
+  ?smtp (så hopper den tilbage og søger efter smtp) - man kan bruge "n" til at hoppe TILBAGE til forrige
+
+- head /etc/services
+- head -n 3 /etc/services
+  tager 3 linjer fra toppen
+- tail -n 3 /etc/services
+  viser 3 linjer fra bunden
+
+# Regular expression & grep
+
+- apt list
+- apt list | grep kernel
+  vi tager output fra list og sender det som input værdi til grep
+- apt list | grep ^kernel
+
+- sudo apt-get install ntp
+  måske den allerede er installeret på serveren
+
+- cat /etc/ntp.conf
+- wc -l !\$
+  det er det samme som: wc -l /etc/ntp.conf
+  den tæller hvor mange linjer der er
+- cp !\$ .
+  kopierer /etc/ntp.conf til lokalt.
+
+- wc -l ./ntp.conf
+
+- grep server ntp.conf
+- type grep
+  den viser vi kører med alias "grep --color=auto", så den markerer de ord der matcher.
+- grep ^# ntp.conf
+  viser alt hvad der starter med hashtag (#)
+
+- grep '\bserver\b' ntp.conf
+  \b = word boundary
+  her finder vi altså ordet "server" og ikke eksempelvis "servers" eller "serverABC" men kun "server".
+  Der er forskellige regex muligheder.
+  se muligheder her: https://regex101.com/
+
+- grep -E '\w{4}ful' ntp.conf
+  blot et eksempel med regex.
+  \w = words.
+  {4}
+  betyder = find et ord der har 4 bogstaver og slutter med "ful".
+
+# Edit files
+
+- (husk at kopier ntp.conf forfra igen)
+
+  - cp /etc/ntp.conf .
+
+- sed '/^#/d ; /^\$/d' ntp.conf
+  fjerner alt hvad der starter med #
+  fjenrer alt hvad der tomme linjer
+
+- function clean_file {
+  sed -i '/^#/d ; /^$/d' $1
+  }
+
+- clean_file ntp.conf
+
+# Comparing Files
+
+- cp ./ntp.conf ntp.new
+- echo 'min tekst' >> ntp.new
+  > > betyder at man appender noget til en anden fil.
+- diff ntp.conf ntp.new
+  Rækkefølgen er RIGTIG vigtig. Vil man sammenligne ntp.conf MED ntp.new ELLER vil man heller sammenligne ntp.new MED ntp.conf.
+  Så det er mere hvad vil du sammenligne: diff ORIGINAL SAMMENLIGN-MED-DETTE
+- md5sum ntp.new
+  den laver et checksum på filen (128-bit MD5 hash).
+- md5sum ntp.conf
+- md5sum ntp.conf ntp.new
+  så kan man sammenligne de to filer ved at se om hash er ens eller ej
+
+# Finding files
+
+- mkdir test && cd test
+- find /usr/share/doc -name '\*.py'
+  husk at fjerne \ fra \*
+
+- find /usr/share/doc -name '\*.py' -exec cp {} . \;
+  {} betyder at man henviser til hvert item i loopet (lidt som i normal fot loop med i++)
+  . = kopier der hvor man står
+  \; = afslut "exec"
+- ls
+  for at se at de er blevet kopieret over
+- find -name '\*.py' -delete
+  for at fjerne filer der matcher expression
+
+Andet eksempel:
+
+- find /etc -type l
+  finder baseret på filtypen (i dette tilfælde link)
+  den finder også links der er i subdirecotry
+- find /etc -maxdepth 1 -type l
+  den finder kun links på en maxdybde 1 = altså i samme mappe
+
+Andet eksempel
+
+- df -h /boot
+  Den viser forbrug på disken
+- find /boot -size +10000k -type f
+  den finder normale filer der er mindst 10MB store
+- find /boot -size +10000k -type f -exec du -h {} \;
+  du = disk usage
+  den viser hvor meget hver fil fylder.
+
+# Piping & redirection
+
+- echo hej > test
+- cat test
+- echo farvel >> test
+- cat test
+- mkdir -dffsda 4
+  Så får vi en eller anden fejl der siger: "mkdir: invalid option -- 'd' Try 'mkdir --help' for more information."
+- mkdir -dffsda 4 &> test
+  den sender alle fejl videre til denne fil i stedet for at printe dem.
+
+Piping en anden øvelse
+
+- ls | wc -l
+- head -n1 /etc/passwd
+  tager kun første linje (number of lines)
+  Den udskriver: root:x:0:0:root:/root:/bin/bash
+- cut -f7 -d : /etc/passwd
+  f7 = field "7"
+  d = delimiter ":"
+  root:x:0:0:root:/root:/bin/bash
+  dette er field 7 på delimiter : ^ (/bin/bash)
+  så den viser alt ved /etc/password
+- cut -f7 -d : /etc/passwd | sort
+  så tager det alt indhold og sender det videre til "sort" metoden
+- cut -f7 -d : /etc/passwd | sort | uniq
+  så tager den indholdet fra /etc/passwd -> sender til sort -> som sender det til uniq
+- cut -f7 -d : /etc/passwd | sort | uniq | wc -l
+  den viser hvor mange forskellige shells der er

@@ -1,0 +1,15 @@
+-	Opgave for 1. dagen
+o	Jeg vil udfordre de studerende til at lave deres eget build og deploy tool i shell-script.
+o	1. Lav et simpelt HelloWorld eksempel i .net core
+o	2. Brug Github som Git-repository
+o	3. Lav et Shell script der udfører følgende
+	Henter projektet ned
+	Restore pakker
+	Kører eventuelle unit test
+	Bygger projektet i ”publish” mode
+	Tager publish pakken og zipper den
+	”Deployer” til en anden mappe på stisystemet
+•	Hvis man virkelig vil, så må man gerne deploy til Azure, DigitalOcean eller lign.
+o	LOGGING
+	Alle steps i shell-scriptet skal logges i en separat fil der hedder ”log.txt”.
+-	Vi starter på opgaven som det sidste, så jeg kan nå at opfange de første problemstillinger og spørgsmål der måtte opstå.

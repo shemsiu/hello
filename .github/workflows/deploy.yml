@@ -1,51 +1,18 @@
-env:
-  IMAGE_NAME: "shemsiu/hello"
+name: Build and Deploy
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  # push:
+  #   branches: [main]
+  release:
+    types: [published]
 
 jobs:
-  # test:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Checkout master
-  #       uses: actions/checkout@v2
-
-  #     - name: Set up Python 3.8
-  #       uses: actions/setup-python@v2
-  #       with:
-  #         python-version: 3.8
-
-  #     - name: Install dependencies with pipenv
-  #       run: |
-  #         python -m pip install --upgrade pip
-  #         pip install pipenv
-  #         if [ -f Pipfile ]; then pipenv install --deploy --dev; fi
-
-  #     - name: Lint with flake8
-  #       run: |
-  #         # stop the build if there are Python syntax errors or undefined names
-  #         pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-  #         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-  #         pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-
-  #     - name: Test with pytest
-  #       run: |
-  #         pipenv run pytest .
-
   build_and_push:
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-
-      # - name: Set up QEMU
-      #   uses: docker/setup-qemu-action@v1
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -76,32 +43,46 @@ jobs:
         with:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
-          # KEY: ${{ secrets.SSHKEY }}
           password: ${{ secrets.PASSWORD }}
-          envs: IMAGE_NAME
           script: |
             cat ~/my_password.txt | docker login --username shemsiu --password-stdin
-
 
             docker pull shemsiu/hello:latest
 
             # Stop running container
-            # docker stop shemsiu/hello:latest
             docker stop $(docker ps -aq --filter expose=9002)
 
             # Remove old container
-            # docker rm shemsiu/hello:latest
             docker rm $(docker ps -aq --filter expose=9002)
 
             # Run a new container from a new image
             docker run -d -p 9000:9002 shemsiu/hello:latest
 
-# docker run -d \
-# --restart always \
-# -p 9000:9002 \
-# --name $(echo $IMAGE_NAME)
+  # test:
+  #   runs-on: ubuntu-latest
 
-# docker run -d \
-# --restart always \
-# -p 9000:9002 \
-# --name shemsiu/hello
+  #   steps:
+  #     - name: Checkout master
+  #       uses: actions/checkout@v2
+
+  #     - name: Set up Python 3.8
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: 3.8
+
+  #     - name: Install dependencies with pipenv
+  #       run: |
+  #         python -m pip install --upgrade pip
+  #         pip install pipenv
+  #         if [ -f Pipfile ]; then pipenv install --deploy --dev; fi
+
+  #     - name: Lint with flake8
+  #       run: |
+  #         # stop the build if there are Python syntax errors or undefined names
+  #         pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+  #         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+  #         pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+  #     - name: Test with pytest
+  #       run: |
+  #         pipenv run pytest .
