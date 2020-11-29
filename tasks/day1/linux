@@ -6,10 +6,8 @@ Filen her laver selv nogle escapes som fx. \* og der skal vi blot fjerne \, når
 
 - pwd
 - cd
-- tty (hvilken terminal der bruges)
 - who (hvem er logget ind)
 - whoami (hvem er du logget ind som)
-- ip a s (vis ip)
 
 ### Listing files
 

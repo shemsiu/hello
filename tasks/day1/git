@@ -2,32 +2,6 @@ Hvis guiden går for hurtigt, så kan man hente info her:
 https://www.atlassian.com/git/tutorials/
 
 ######################################################################
-                                LINUX
-######################################################################
-Linux kommandoer:
-
-cd ~
-cd 'et eller andet sted'
-ls
-ls -l
-ls -la
-echo "Hello World"
-echo "Hello World" > test.txt
-less test.txt
-nano test.txt (kig på listen af mulige kommandoer)
-mv test.txt demo.txt (også muligt at flytte mapper m.m.)
-mkdir test
-mv demo.txt test/demo.txt (eller giv det et andet navn)
-mkdir inner && cd inner
-cd ../
-rm demo.txt
-cd ../
-rm test/ (fejler med: rm: test/: is a directory)
-rm -r test/
-
-
-
-######################################################################
                                 GIT
 ######################################################################
 

@@ -1,0 +1,126 @@
+########################################################################
+########################### Working with files #########################
+########################################################################
+
+- cd /
+- pwd
+- cd ~
+
+- cp /etc/hosts .
+  . = der hvor jeg står lige nu
+- ls
+  så kan vi se at den er kopieret over
+- cat hosts
+  læse indholdet af filen
+- cp /etc/passwd ./passwd
+  her kan jeg give den et bestemt navn
+- ls
+  så kan vi se begge filer nu
+- cat passwd
+  så kan vi se alle brugere i systemet
+- cp /etc/hosts ./passwd
+  nu har jeg overskrevet den eksisterende fil
+- cat password
+  Nu er det hosts der er i min passwd fil
+- cp -i /etc/hosts ./passwd
+  -> "cp: overwrite './passwd'?"
+  Nu bliver det en "interaktiv mode". Så kan vi styre om vi vil overstyre det.
+- cp hosts localhosts
+- ls
+- mkdir testmappe (opret en mappe)
+- mv localhosts ./testmappe
+- mv passwd ./testmappe
+- cd testmappe
+- rm -i *hosts
+  muligt at bruge regex til at finde ud af hvilke filer man gerne vil slette
+
+Opret filer:
+- touch minfil.txt
+- touch minfil{1,2,3}.txt
+- rm *.txt
+- touch minfil{1..10}.txt
+
+man kan også benytte
+less - til at søge i selve filen
+nano - editor
+vim - editor
+
+
+########################################################################
+######################## Working with directories ######################
+########################################################################
+
+- mkdir testfolder
+- mkdir folder1/folder2
+- mkdir -p folder1/folder2
+  opretter automatisk "parent"
+- rmdir folder1
+- cd folder1
+- pwd
+  der er altså indhold inde i mappen folder1
+- rm -rf folder1
+  "recursive" and "force"
+  den er ligeglad med indholdet
+- mkdir one two
+- touch one/file{1..5}
+  opretter 5 filer
+- cp -R one/file* two
+  kopierer alle filer der hedder noget med file* over til mappe "two"
+- cp -R one two
+  så kopirer den mappen OG dens indhold ind i mappen "two
+
+- mkdir -m 777 d1
+  sætte permissions (all permissions)
+- mkdir -m 700 d2
+  her er det kun user der må udføre kommandoer. Group og "others" må intet.
+- ls -ld d1 d2
+
+
+
+########################################################################
+############################### Streams ################################
+########################################################################
+
+1> betyder "stdout" = Standard ouput
+2> betyder "stderr" = Standard error
+
+###### Standard output:
+Vi tager det output der ville komme i konsollen og gemmer den i en fil i stedet for
+- echo "min fil" 1> fil.txt
+
+VI tager FEJLEN der ville komme og gemme det i en fil
+###### Standard error:
+cat min-fil-der-ikke-findes.txt 2> error-log.txt
+
+Hvis jeg kun skriver sådan her: "cat min-fil-der-ikke-findes.txt" så får jeg fejlen vist i konsollen = "cat: min-fil-der-ikke-findes.txt: No such file or directory"
+
+### APPEND
+Man kan append til samme fil ved at bruge ">>" i stedet for:
+1>>
+2>>
+
+##### /dev/null
+Hvis man blot ønsker at køre et program, der ikke skal logge hverken godt eller skidt, så kan man benytte /dev/null som stdout og stderr.
+Intet bliver gemt i /dev/null.
+
+ls -lsah 1> /dev/null (kun stdout bliver sendt videre)
+ls -lsah 2> /dev/null (kun hvis der var fejl - i dette tilfælde er der ikke fejl og derfor bliver output vist).
+
+########################################################################
+############################# Finding files ############################
+########################################################################
+
+- mkdir test && cd test
+- find /usr/share/doc -name '*.py'
+  søger efter alle filer i mappen der ender med *.py
+
+- find /usr/share/doc -name '*.py' -exec cp {} . \;
+  {} betyder at man henviser til hvert item i loopet (lidt som i normal fot loop med i++)
+  . = kopier der hvor man står
+  \; = afslut "exec"
+- ls
+  for at se at de er blevet kopieret over
+- find -name '*.py' -delete
+  for at fjerne filer der matcher expression
+
+
