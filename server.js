@@ -7,6 +7,11 @@ app.get('/', (req, res) => {
   res.send('Hello World 4. december');
 });
 
+app.get('/vigan', (req, res) => {
+  console.log('VISIT /vigan', new Date().toLocaleString());
+  res.send('Hej Vigan.');
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
