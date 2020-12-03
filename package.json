@@ -18,9 +18,15 @@
   },
   "homepage": "https://github.com/shemsiu/hello#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "autoprefixer": "^10.0.4",
+    "express": "^4.17.1",
+    "postcss": "^8.1.13",
+    "tailwindcss": "^2.0.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
+  },
+  "directories": {
+    "test": "test"
   }
 }
