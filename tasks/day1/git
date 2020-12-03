@@ -13,16 +13,20 @@ git init
 
 ######################################################################
 
-TASK 2: [Gitconfig]
+TASK 2: [Gitconfig] - Globale settings til vores git
 less ~/.gitconfig
-git config --global user.name 'Vigan Test'
-nano ~/.gitconfig (ændre navnet tilbage igen)
+
+Eksempel: https://gist.github.com/pksunkara/988716
+
 
 ######################################################################
 
 TASK 3: [Gitingore]
 nano .gitignore (tilføj regel)
 Tilføj dette i gitignore:
+Simpel:
+node_modules/
+
 # exclude everything except directory foo/bar
     /*
     !/foo
@@ -90,6 +94,11 @@ git commit -m "besked"
 git checkout master
 git merge min-nye-branch
 fiks merge conflicts... :)
+
+
+
+
+
 
 der findes også andre metoder, som:
 git clean

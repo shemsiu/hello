@@ -4,7 +4,7 @@ const port = 9002;
 
 app.get('/', (req, res) => {
   console.log('VISIT', new Date().toLocaleString());
-  res.send('Hello World <3 :-) !!! release');
+  res.send('Hello World 4. december');
 });
 
 app.listen(port, () => {
