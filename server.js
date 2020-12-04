@@ -4,7 +4,7 @@ const port = 9002;
 
 app.get('/', (req, res) => {
   console.log('VISIT', new Date().toLocaleString());
-  res.send('Hello World 4. december');
+  res.send('Hello World 5. december');
 });
 
 app.get('/vigan', (req, res) => {
