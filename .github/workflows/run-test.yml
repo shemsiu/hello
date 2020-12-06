@@ -1,5 +1,8 @@
 name: Run test
 
+env:
+  COMMAND: ps
+
 on:
   [push]
   # push:
@@ -14,6 +17,4 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "14.15.x"
-      - run: npm install
-      - run: npm run build --if-present
-      - run: npm test
+      - run: $(echo $COMMAND)

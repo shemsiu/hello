@@ -1,0 +1,45 @@
+KUBECONFIG=const express = require('express');
+const app = express();
+const port = 9002;
+
+app.get('/', (req, res) => {
+  console.log('VISIT', new Date().toLocaleString());
+  res.send('Hello World 5. december');
+});
+
+app.get('/vigan', (req, res) => {
+  console.log('VISIT /vigan', new Date().toLocaleString());
+  res.send('Hej Vigan.');
+});
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+});
+KUBECONFIG=const express = require('express');
+const app = express();
+const port = 9002;
+
+app.get('/', (req, res) => {
+  console.log('VISIT', new Date().toLocaleString());
+  res.send('Hello World 5. december');
+});
+
+app.get('/vigan', (req, res) => {
+  console.log('VISIT /vigan', new Date().toLocaleString());
+  res.send('Hej Vigan.');
+});
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+});
+KUBECONFIG=  PID TTY           TIME CMD
+11454 ttys000    0:00.11 /Applications/iTerm.app/Contents/MacOS/iTerm2 --server login -fp shemsiu
+11456 ttys000    0:00.25 -bash
+98256 ttys001    0:00.07 /Applications/iTerm.app/Contents/MacOS/iTerm2 --server login -fp shemsiu
+98258 ttys001    0:00.78 -bash
+13741 ttys002    0:00.06 /Applications/iTerm.app/Contents/MacOS/iTerm2 --server login -fp shemsiu
+13743 ttys002    0:00.13 -bash
+28809 ttys003    0:00.08 /Applications/iTerm.app/Contents/MacOS/iTerm2 --server login -fp shemsiu
+28811 ttys003    0:00.19 -bash
+37525 ttys004    0:00.03 /bin/bash -l
+{name}={value}
